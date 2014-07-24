@@ -1,3 +1,4 @@
+src/libthelog.a
 test/test_runner
 test/valgrind.log
 
