@@ -5,6 +5,7 @@ include_directories(igloo)
 set(TEST_SOURCE_FILES
     test_runner.cpp
     test_logger.cpp
+    test_logger_switched_off.cpp
     )
 
 

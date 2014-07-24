@@ -103,8 +103,13 @@ class AutoLogger
     const LogDetails m_details;
 };
 
-#define thelog( loglevel ) the::log::AutoLogger( { loglevel, __FILE__, __LINE__ } )
 }
 
 }
+
+#if defined switch_off_thelog
+  #define thelog(...) (void)
+#else
+  #define thelog( loglevel ) the::log::AutoLogger( { loglevel, __FILE__, __LINE__ } )
+#endif
 
