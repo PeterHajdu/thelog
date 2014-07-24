@@ -1,7 +1,6 @@
 #include <thelog/logger.hpp>
 #include <memory>
-#include <iomanip>
-#include <chrono>
+#include <ctime>
 
 namespace
 {
@@ -9,12 +8,10 @@ namespace
 
   std::string local_time_in_string_format()
   {
-    auto now = std::chrono::system_clock::now();
-    auto in_time_t = std::chrono::system_clock::to_time_t(now);
-
-    std::stringstream ss;
-    ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X");
-    return ss.str();
+    std::time_t t( std::time( nullptr ) );
+    char buffer[ 100 ];
+    std::strftime( buffer, sizeof( buffer ), "%Y-%m-%d %X", std::localtime( &t ) );
+    return buffer;
   }
 }
 
