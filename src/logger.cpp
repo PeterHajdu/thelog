@@ -39,15 +39,25 @@ Logger::add_channel( std::ostream& stream )
 }
 
 void
+Logger::set_loglevel( int loglevel )
+{
+  instance().m_loglevel = loglevel;
+}
+
+void
 Logger::drop_channels()
 {
   instance().m_channels.clear();
 }
 
 AutoLogger
-Logger::log()
+Logger::log( int loglevel )
 {
-  return AutoLogger( instance().m_channels );
+  Logger& logger( instance() );
+  return AutoLogger(
+      loglevel < logger.m_loglevel ?
+      logger.m_no_channels :
+      instance().m_channels );
 }
 
 

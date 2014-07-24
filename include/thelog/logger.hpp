@@ -30,7 +30,8 @@ class Logger
   public:
     static void drop_channels();
     static void add_channel( std::ostream& );
-    static AutoLogger log();
+    static void set_loglevel( int loglevel );
+    static AutoLogger log( int loglevel );
 
     Logger( const Logger& ) = delete;
     Logger& operator=( const Logger& ) = delete;
@@ -41,9 +42,11 @@ class Logger
     static Logger& instance();
 
     ChannelContainer m_channels;
+    ChannelContainer m_no_channels;
+    int m_loglevel{ 0 };
 };
 
-#define thelog( loglevel ) the::log::Logger::log().stream() << __FILE__ << " +" << __LINE__ << " "
+#define thelog( loglevel ) the::log::Logger::log( loglevel ).stream() << __FILE__ << " +" << __LINE__ << " "
 
 }
 

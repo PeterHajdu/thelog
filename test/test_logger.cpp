@@ -12,6 +12,7 @@ Describe( a_logger )
   void SetUp()
   {
     the::log::Logger::drop_channels();
+    the::log::Logger::set_loglevel( 0 );
     log_stream.str( "" );
     second_log_stream.str( "" );
     the::log::Logger::add_channel( log_stream );
@@ -37,10 +38,25 @@ Describe( a_logger )
 
   It( logs_the_line_number_in_vim_format )
   {
-    AssertThat( log_stream.str(), Contains( "+19" ) );
+    AssertThat( log_stream.str(), Contains( "+20" ) );
   }
 
+  It( should_not_log_messages_under_the_loglevel )
+  {
+    thelog( lower_loglevel ) << another_log_message;
+    AssertThat( log_stream.str(), Is().Not().Containing( another_log_message ) );
+  }
+
+  It( should_set_loglevels_runtime )
+  {
+    the::log::Logger::set_loglevel( lower_loglevel );
+    thelog( lower_loglevel ) << another_log_message;
+    AssertThat( log_stream.str(), Contains( another_log_message ) );
+  }
+
+  const int lower_loglevel{ -10 };
   const std::string log_message{ "some log message" };
+  const std::string another_log_message{ "some other log message" };
   std::stringstream log_stream;
   std::stringstream second_log_stream;
 };
