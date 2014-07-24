@@ -7,14 +7,14 @@ namespace
 {
   std::unique_ptr< the::log::Logger > logger_instance;
 
-  std::stringstream local_time_in_string_format()
+  std::string local_time_in_string_format()
   {
     auto now = std::chrono::system_clock::now();
     auto in_time_t = std::chrono::system_clock::to_time_t(now);
 
     std::stringstream ss;
     ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X");
-    return ss;
+    return ss.str();
   }
 }
 
@@ -72,7 +72,7 @@ AutoLogger::stream()
 
 AutoLogger::~AutoLogger()
 {
-  std::string time( local_time_in_string_format().str() );
+  const std::string time( local_time_in_string_format() );
   for ( auto& channel : m_channels )
   {
     channel.get() << time << " " << m_stream.str() << std::endl;

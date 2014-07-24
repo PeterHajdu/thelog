@@ -38,7 +38,6 @@ Describe( a_logger )
   It( logs_the_line_number_in_vim_format )
   {
     AssertThat( log_stream.str(), Contains( "+19" ) );
-    std::cout << log_stream.str() << std::endl;
   }
 
   const std::string log_message{ "some log message" };
