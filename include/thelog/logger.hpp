@@ -2,7 +2,6 @@
 #include <ostream>
 #include <vector>
 #include <functional>
-#include <sstream>
 
 namespace the
 {
