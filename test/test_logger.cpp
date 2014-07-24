@@ -17,7 +17,7 @@ Describe( a_logger )
     second_log_stream.str( "" );
     the::log::Logger::add_channel( log_stream );
     the::log::Logger::add_channel( second_log_stream );
-    thelog( 1 ) << log_message;
+    thelog( 1 )( log_message );
   }
 
   It( logs_messages )
@@ -43,14 +43,14 @@ Describe( a_logger )
 
   It( should_not_log_messages_under_the_loglevel )
   {
-    thelog( lower_loglevel ) << another_log_message;
+    thelog( lower_loglevel )( another_log_message );
     AssertThat( log_stream.str(), Is().Not().Containing( another_log_message ) );
   }
 
   It( should_set_loglevels_runtime )
   {
     the::log::Logger::set_loglevel( lower_loglevel );
-    thelog( lower_loglevel ) << another_log_message;
+    thelog( lower_loglevel )( another_log_message );
     AssertThat( log_stream.str(), Contains( another_log_message ) );
   }
 
