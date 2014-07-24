@@ -6,6 +6,7 @@ set(TEST_SOURCE_FILES
     test_runner.cpp
     test_logger.cpp
     test_logger_switched_off.cpp
+    test_trace.cpp
     )
 
 
