@@ -12,6 +12,20 @@ namespace the
 namespace log
 {
 
+
+std::string
+trim_file_name( std::string&& filename )
+{
+  const std::size_t slash_position( filename.find_last_of( "/\\" ) );
+  if ( slash_position != std::string::npos )
+  {
+    filename = filename.substr( slash_position + 1 );
+  }
+
+  return filename;
+}
+
+
 std::ostream&
 operator<<( std::ostream& output, const LogDetails& details )
 {

@@ -2,6 +2,7 @@
 #include <ostream>
 #include <vector>
 #include <functional>
+#include <string>
 
 namespace the
 {
@@ -14,13 +15,24 @@ class LogDetails;
 std::string local_time_in_string_format();
 std::ostream& operator<<( std::ostream& output, const LogDetails& details );
 
+std::string trim_file_name( std::string&& );
 
 class LogDetails
 {
   public:
-    int loglevel;
-    const char* file;
-    int line;
+    LogDetails(
+        int loglevel,
+        const char* file,
+        int line )
+      : loglevel( loglevel )
+      , file( trim_file_name( file ) )
+      , line( line )
+    {
+    }
+
+    const int loglevel;
+    const std::string file;
+    const int line;
 };
 
 

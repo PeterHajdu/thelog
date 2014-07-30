@@ -36,6 +36,11 @@ Describe( a_logger )
     AssertThat( log_stream.str(), Contains( "test_logger.cpp" ) );
   }
 
+  It( cuts_off_full_path_and_keeps_only_the_filename )
+  {
+    AssertThat( log_stream.str(), Contains( " test_logger.cpp +" ) );
+  }
+
   It( logs_the_line_number_in_vim_format )
   {
     AssertThat( log_stream.str(), Contains( "+20" ) );
