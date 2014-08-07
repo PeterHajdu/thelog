@@ -1,6 +1,7 @@
 #include <thelog/logger.hpp>
 #include <memory>
 #include <ctime>
+#include <iostream>
 
 namespace
 {
@@ -47,6 +48,7 @@ Logger::instance()
   if ( !logger_instance )
   {
     logger_instance.reset( new Logger() );
+    logger_instance->add_channel( std::cout );
   }
 
   return *logger_instance;

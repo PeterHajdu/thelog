@@ -5,10 +5,11 @@ using namespace igloo;
 
 namespace
 {
+  const char* test_string = "some string";
 
   void traced_function( std::function<void()> checker )
   {
-    thelog_trace( 10 );
+    thelog_trace( 10, test_string );
     checker();
   }
 
@@ -41,6 +42,17 @@ Describe( a_trace )
           AssertThat( log_stream.str(), Is().Not().Containing( "LEAVE" ) );
         } );
     AssertThat( log_stream.str(), Contains( "LEAVE" ) );
+  }
+
+  It( logs_an_additional_string_along_with_enter_and_leave )
+  {
+    traced_function(
+        [ this ]()
+        {
+          AssertThat( log_stream.str(), Is().Containing( test_string ) );
+          log_stream.str( "" );
+        } );
+    AssertThat( log_stream.str(), Contains( test_string ) );
   }
 
   std::stringstream log_stream;
