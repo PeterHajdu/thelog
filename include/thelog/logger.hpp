@@ -61,6 +61,7 @@ class Logger
     Logger( const Logger& ) = delete;
     Logger& operator=( const Logger& ) = delete;
 
+    static const int default_loglevel{ 1000 };
   private:
     template< typename Head, typename...Tail >
     void print( Head&& head, Tail&&...tail )
@@ -94,7 +95,7 @@ class Logger
 
     typedef std::vector< std::reference_wrapper< std::ostream > > ChannelContainer;
     ChannelContainer m_channels;
-    int m_loglevel{ 0 };
+    int m_loglevel{ default_loglevel };
 };
 
 class AutoLogger
