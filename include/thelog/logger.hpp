@@ -3,6 +3,9 @@
 #include <vector>
 #include <functional>
 #include <string>
+#include <string>
+#include <iterator>
+#include <type_traits>
 
 namespace the
 {
@@ -16,6 +19,30 @@ std::string local_time_in_string_format();
 std::ostream& operator<<( std::ostream& output, const LogDetails& details );
 
 std::string trim_file_name( std::string&& );
+
+template < typename T >
+class is_container
+{
+  private:
+    using one = char;
+    using two = struct{ char m[2]; };
+
+    template < typename U >
+    static one test( ... );
+
+    template < typename U >
+    static two test( typename U::const_iterator* );
+
+  public:
+    static const bool value{ sizeof( test<T>( nullptr ) ) == sizeof( two ) };
+};
+
+template <>
+class is_container< std::string >
+{
+  public:
+    static const bool value{ false };
+};
 
 class LogDetails
 {
@@ -81,11 +108,23 @@ class Logger
     }
 
     template < typename T >
-    void to_all_channels( const T& message )
+    typename std::enable_if< !is_container< T >::value, void >::type
+    to_all_channels( const T& message )
     {
       for ( auto& channel : m_channels )
       {
         channel.get() << message << " ";
+      }
+    }
+
+    template < typename T >
+    typename std::enable_if< is_container< T >::value, void >::type
+    to_all_channels( const T& message )
+    {
+      for ( auto& channel : m_channels )
+      {
+        std::copy( std::begin( message ), std::end( message ),
+            std::ostream_iterator< typename T::value_type >( channel, ", " ) );
       }
     }
 
@@ -114,6 +153,9 @@ class AutoLogger
   private:
     const LogDetails m_details;
 };
+
+
+
 
 }
 

@@ -59,6 +59,14 @@ Describe( a_logger )
     AssertThat( log_stream.str(), Contains( another_log_message ) );
   }
 
+  It( can_log_containers )
+  {
+    std::vector< int > int_container{ 10, 123 };
+    thelog( 1 )( int_container );
+    AssertThat( log_stream.str(), Contains( "10" ) );
+    AssertThat( log_stream.str(), Contains( "123" ) );
+  }
+
   const int lower_loglevel{ -10 };
   const std::string log_message{ "some log message" };
   const std::string another_log_message{ "some other log message" };
